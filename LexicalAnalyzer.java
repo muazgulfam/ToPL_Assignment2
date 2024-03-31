@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-//import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class LexicalAnalyzer {
     
@@ -22,7 +20,10 @@ public class LexicalAnalyzer {
             int lineNumber = 0;
 
             System.out.printf("%-20s%-20s%-20s%-20s%n", "Lexeme", "Token", "Scope", "Array Size");
-            System.out.println("--------------------------------------------------------------------------------");
+            System.out.println("------------------------------------------------------------------------");
+
+            Stack<Character> bracketStack = new Stack<>();
+            boolean syntaxError = false;
 
             while ((line = br.readLine()) != null) {
                 lineNumber++;
@@ -38,6 +39,15 @@ public class LexicalAnalyzer {
 
                     if (lexeme.contains(";")) {
                         lexeme = lexeme.replace(";", "");
+                    }
+
+                    if (lexeme.equals("{")) {
+                        bracketStack.push('{');
+                    } else if (lexeme.equals("}")) {
+                        if (bracketStack.isEmpty() || bracketStack.pop() != '{') {
+                            System.out.println("Syntax error: Extra closing curly bracket '}' on line " + lineNumber);
+                            syntaxError = true;
+                        }
                     }
 
                     if (keywords.contains(lexeme)) {
@@ -64,6 +74,15 @@ public class LexicalAnalyzer {
                     // Output the lexeme, token, scope, and array size
                     System.out.printf("%-20s%-20s%-20s%-20s%n", lexeme, dataType, scope, arraySize);
                 }
+            }
+
+            if (!bracketStack.isEmpty()) {
+                System.out.println("Syntax error: Missing closing curly bracket '}'");
+                syntaxError = true;
+            }
+
+            if (!syntaxError) {
+                System.out.println("No syntax errors found.");
             }
         } catch (IOException e) {
             e.printStackTrace();
