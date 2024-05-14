@@ -4,7 +4,7 @@
 
  public class BadArray{
  
-    public static void main(String[] args)
+    public static void main ( String[]args )
     {
        // Create an array with three elements.
        int[] numbers = { 1, 2, 3} ;
@@ -14,6 +14,6 @@
        for (int index = 0; index <= 3; index++)
           System.out.println(numbers[index]);
     }
-    }
+ }
    }
 

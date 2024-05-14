@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class LexicalAnalyzer {
+public class SymbolTable {
     
     // Keywords in the programming language
     private static final List<String> keywords = Arrays.asList("int", "float", "double", "char", "void", "if", "else", "while", "for", "return");
